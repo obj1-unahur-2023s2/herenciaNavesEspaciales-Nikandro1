@@ -1,0 +1,168 @@
+import naves.*
+
+describe "Probando metodos de nave baliza"{
+	const naveBaliza1 = new NaveBaliza(colorBaliza = "azul", combustible = 0)
+	/*
+	test "Acelearemos la nave y probamos que cambia su velocidad"{
+		naveBaliza1.acelerar(1000)
+		assert.equals(1000, naveBaliza1.velocidad())
+	}
+	test "Probamos acelarar 1000 y desacelerar 500"{
+		naveBaliza1.acelerar(1000)
+		naveBaliza1.desacelerar(500)
+		assert.equals(500, naveBaliza1.velocidad())
+	}
+	test "Probamos que al ir al sol se setea en 10"{
+		naveBaliza1.irHaciaElSol()
+		assert.equals(10, naveBaliza1.direccionDelSol())
+	}
+	test "Probamos que al ponerse en paralelo al sol se setea en 0"{
+		naveBaliza1.ponerseParaleloAlSol()
+		assert.equals(0, naveBaliza1.direccionDelSol())
+	}
+	test "Probamos que al escapar del sol se setea en -10"{
+		naveBaliza1.ponerseParaleloAlSol()
+		naveBaliza1.escaparDelSol()
+		assert.equals(-10, naveBaliza1.direccionDelSol())
+	}
+	test "al acercarse al sol queda en -9"{
+		naveBaliza1.acercarseUnPocoAlSol()
+		assert.equals(-9, naveBaliza1.direccionDelSol())
+	}
+	test "cargamos 1000 de combustible"{
+		naveBaliza1.cargarCombustible(1000)
+		assert.equals(1000, naveBaliza1.combustible())
+	}
+	test "cargamos 1000 de combustible y le descargamos 500"{
+		naveBaliza1.cargarCombustible(1000)
+		naveBaliza1.descargarCombustible(500)
+		assert.equals(500, naveBaliza1.combustible())
+	}
+	test "Al preparar viaje la velocidad se setea en 5000"{
+		naveBaliza1.prepararViaje()
+		assert.equals(5000, naveBaliza1.velocidad())
+	}
+	test "Al preparar viaje el combustible se setea en 3000"{
+		naveBaliza1.prepararViaje()
+		assert.equals(3000, naveBaliza1.combustible())
+	}
+	test "Al preparar viaje la velocidad la baliza se pone en verde"{
+		naveBaliza1.prepararViaje()
+		assert.that(naveBaliza1.colorBaliza() == "verde")
+	}
+	test "Al preparar viaje se pone paralelo al sol (0)"{
+		naveBaliza1.prepararViaje()
+		assert.equals(0, naveBaliza1.direccionDelSol())
+	}
+	*/
+}
+
+describe "Testeamos la nave de pasajeros"{
+	const pasajero1 = new NavePasajeros(combustible = 0, pasajeros = 30)
+	/*
+	test "Le cargamos 50 comidas"{
+		pasajero1.cargarComida(50)
+		assert.equals(50, pasajero1.comida())
+	}
+	test "le cargamos 50 bebidas"{
+		pasajero1.cargarBebida(50)
+		assert.equals(50, pasajero1.bebida())
+	}
+	test "Le cargamos 50 comidas y le descargamos 25"{
+		pasajero1.cargarComida(50)
+		pasajero1.descargarComida(25)
+		assert.equals(25, pasajero1.comida())
+	}
+	test "le cargamos 50 bebidasy le descargamos 25"{
+		pasajero1.cargarBebida(50)
+		pasajero1.descargarBebida(25)
+		assert.equals(25, pasajero1.bebida())
+	}
+	test "Al preparar viaje la comida se multiplica por 4 por cada pasajero(4*30)"{
+		pasajero1.prepararViaje()
+		assert.equals(120, pasajero1.comida())
+	}
+	test "Al prepara viaje la bebida se multiplica por 6 por cada pasajero(6*30)"{
+		pasajero1.prepararViaje()
+		assert.equals(180, pasajero1.bebida())
+	}
+	test "Al preparar viaje se acerca un al sol (-9)"{
+		pasajero1.prepararViaje()
+		assert.equals(-9, pasajero1.direccionDelSol())
+	}
+	*/
+}
+
+describe "Probamos las naves de combate"{
+	const combate1 = new NaveCombate(combustible = 0)
+	
+	method initialize(){
+		combate1.emitirMensaje("Estamos preparandonos para la guerra")
+	}
+	
+	/*
+	test "Probamos que inicia visible"{
+		assert.notThat(combate1.estaInvisible())
+	}
+	test "Probamos que se pone invisible"{
+		combate1.ponerseInvisible()
+		assert.that(combate1.estaInvisible())
+	}
+	test "Probamos que se pone invisible y lo volvemos visible"{
+		combate1.ponerseInvisible()
+		combate1.ponerseVisible()
+		assert.notThat(combate1.estaInvisible())
+	}
+	test "Probamos que no inicia con misiles desplegados"{
+		assert.notThat(combate1.misilesDesplegados())
+	}
+	test "Probamos que se puede desplegar misiles"{
+		combate1.desplegarMisiles()
+		assert.that(combate1.misilesDesplegados())
+	}
+	test "seteamos con misiles y despues se lo sacamos"{
+		combate1.desplegarMisiles()
+		combate1.replegarMisiles()
+		assert.notThat(combate1.misilesDesplegados())
+	}
+	test "Testamos que al emitir un mensaje ahora hay 2 en la lista"{
+		combate1.emitirMensaje("Hola")
+		assert.that(combate1.mensajes().size() == 2)
+	}
+	test "Probamos que el primer mensaje es el anterior"{
+		assert.that(combate1.primerMensajeEmitido() ==  "Estamos preparandonos para la guerra")
+	}
+	test "probamos que nos devuelve todos los mensajes"{
+		combate1.emitirMensaje("Hola")
+		assert.equals(combate1.mensajesEmitidos(), ["Estamos preparandonos para la guerra", "Hola"])
+	}
+	test "probamos que el ultimo mensaje es hola"{
+		combate1.emitirMensaje("Hola")
+		assert.that(combate1.ultimoMensajeEmitido() == "Hola")
+	}
+	test "Probamos que es escueta"{
+		assert.notThat(combate1.esEscueta())
+	}
+	test "Probamos que emitio el mensaje hola"{
+		combate1.emitirMensaje("Hola")
+		assert.that(combate1.emitioMensaje("Hola"))
+	}
+	test "Al no tener cargado combustible no esta tranquila"{
+		assert.notThat(combate1.estaTranquila())
+	}
+	test "La preparamos que que este tranquila"{
+		combate1.cargarCombustible(4000)
+		combate1.acelerar(12000)
+		assert.that(combate1.estaTranquila())
+	}
+	test "Al preparar viaje la velocidad se pone en 20000"{
+		combate1.prepararViaje()
+		assert.equals(20000, combate1.velocidad())
+	}
+	test "Al preparar mision el ultimo mensaje es Saliendo en misión"{
+		combate1.prepararViaje()
+		assert.that(combate1.ultimoMensajeEmitido() == "Saliendo en misión")
+	}
+	*/
+}
+
