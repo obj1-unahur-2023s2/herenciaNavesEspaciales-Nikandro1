@@ -28,15 +28,23 @@ class Nave{
 		combustible = 0.max(combustible-unaCantidad)
 	}
 	method prepararViaje(){
-		velocidad += 5000
+		self.accionAdicionalEnPrepararViaje()
+		self.acelerar(5000)
 		self.cargarCombustible(3000)
 	}
+	method accionAdicionalEnPrepararViaje()
 	method condicionAdicional() = true
 	method estaTranquila(){
 		return combustible >= 4000 and velocidad <= 12000 and self.condicionAdicional()
 	}
+	method recibirAmenaza(){
+		self.escapar()
+		self.avisar()
+	}
+	method escapar()
+	method avisar()
 	method estaDeRelajo(){ return self.estaTranquila() and self.tienePocaActividad()}
-	
+	method tienePocaActividad()
 }
 
 class NaveBaliza inherits Nave{
@@ -47,19 +55,14 @@ class NaveBaliza inherits Nave{
 		colorBaliza = colorNuevo
 		contador ++
 	}
-	override method prepararViaje(){
-		super()
+	override method accionAdicionalEnPrepararViaje(){
 		colorBaliza = "verde"
 		self.ponerseParaleloAlSol()
 	}
 	override method condicionAdicional(){return self.colorBaliza()  != "rojo"}
-	method escapar(){self.irHaciaElSol()}
-	method avisar(){self.cambiarColorDeBaliza("rojo")}
-	method recibirAmenaza(){
-		self.escapar()
-		self.avisar()
-	}
-	method tienePocaActividad(){
+	override method escapar(){self.irHaciaElSol()}
+	override method avisar(){self.cambiarColorDeBaliza("rojo")}
+	override method tienePocaActividad(){
 		return contador == 0
 	}
 }
@@ -68,30 +71,29 @@ class NavePasajeros inherits Nave{
 	var pasajeros
 	var comida = 0
 	var bebida = 0
+	var descargada
 	
 	method pasajeros() = pasajeros
 	method comida() = comida
 	method bebida() = bebida
 	method cargarComida(unaCantidad){comida += unaCantidad}
 	method cargarBebida(unaCantidad){bebida += unaCantidad}
-	method descargarComida(unaCantidad){comida -= unaCantidad}
+	method descargarComida(unaCantidad){
+		comida -= unaCantidad
+		descargada += unaCantidad
+	}
 	method descargarBebida(unaCantidad){bebida -= unaCantidad}
-	override method prepararViaje(){
-		super()
-		comida += 4*pasajeros
-		bebida += 6*pasajeros
+	override method accionAdicionalEnPrepararViaje(){
+		self.cargarComida(4*pasajeros)
+		self.cargarBebida(6*pasajeros)
 		self.acercarseUnPocoAlSol()
 	}
-	method escapar(){velocidad = velocidad*2}
-	method avisar(){
-		comida -= 1*pasajeros
-		bebida -= 2*pasajeros
+	override method escapar(){self.acelerar(velocidad)}
+	override method avisar(){
+		self.descargarComida(pasajeros)
+		self.descargarBebida(2*pasajeros)
 	}
-	method recibirAmenaza(){
-		self.escapar()
-		self.avisar()
-	}
-	method tienePocaActividad(){}
+	override method tienePocaActividad(){ return descargada < 50}
 }
 
 class NaveCombate inherits Nave{
@@ -107,37 +109,44 @@ class NaveCombate inherits Nave{
 	method mensajes() = mensajes
 	method emitirMensaje(unMensaje){
 		mensajes.add(unMensaje)
-		return unMensaje
 	}
 	method mensajesEmitidos(){return self.mensajes()}
-	method primerMensajeEmitido(){return mensajes.first()}
-	method ultimoMensajeEmitido(){return mensajes.last()}
+	method primerMensajeEmitido(){
+		if (mensajes.isEmpty()){
+			self.error("No hay mensajes")
+		}
+		return mensajes.first()
+	}
+	method ultimoMensajeEmitido(){
+		if (mensajes.isEmpty()){
+			self.error("No hay mensajes")
+		}
+		return mensajes.last()
+	}
 	method esEscueta(){
 		return mensajes.all({m => m.size()<30})
 	}
 	method emitioMensaje(unMensaje){
 		return mensajes.contains(unMensaje)
 	}
-	override method prepararViaje(){
-		super()
-		velocidad += 15000
+	override method accionAdicionalEnPrepararViaje(){
+		self.ponerseVisible()
+		self.desplegarMisiles()
+		self.acelerar(15000)
+		self.acelerar(15000)
 		self.emitirMensaje("Saliendo en misión")
 	}
 	override method condicionAdicional(){
 		return not self.misilesDesplegados()
 	}
-	method escapar(){
+	override method escapar(){
 		self.acercarseUnPocoAlSol()
 		self.acercarseUnPocoAlSol()
 	}
-	method avisar(){
+	override method avisar(){
 		self.emitirMensaje("Amenaza recibida")
 	}
-	method recibirAmenaza(){
-		self.escapar()
-		self.avisar()
-	}
-	method tienePocaActividad(){
+	override method tienePocaActividad(){
 		return self.esEscueta()
 	}
 }
